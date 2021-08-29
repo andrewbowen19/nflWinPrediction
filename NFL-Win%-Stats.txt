@@ -1,0 +1,414 @@
+2020
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9164406648633401
+p-value with Win %: 1.8300339697858304e-13
+Stat: TO For  
+Correlation of TO For with win %: 0.5687970068788715
+p-value with Win %: 0.0006816639197618593
+Stat: TO Against  
+Correlation of TO Against with win %: -0.5272612291356429
+p-value with Win %: 0.0019299336175878409
+Stat: TD  
+Correlation of TD with win %: 0.6968715431490538
+p-value with Win %: 9.382982958352005e-06
+Stat: Wc  
+Correlation of Wc with win %: 0.7312983591517662
+p-value with Win %: 1.991425953016387e-06
+Stat: Lc  
+Correlation of Lc with win %: -0.769010519103698
+p-value with Win %: 2.7209575949564956e-07
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.8470461319584064
+p-value with Win %: 9.822641996567572e-10
+-------------------------------------------
+2019
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.8769041509751161
+p-value with Win %: 4.656924869599616e-11
+Stat: TO For  
+Correlation of TO For with win %: 0.5688871382533313
+p-value with Win %: 0.0006800241731385535
+Stat: TO Against  
+Correlation of TO Against with win %: -0.5927764270324384
+p-value with Win %: 0.0003502344717450111
+Stat: TD  
+Correlation of TD with win %: 0.7912205228199112
+p-value with Win %: 7.018351257219317e-08
+Stat: Wc  
+Correlation of Wc with win %: 0.5822634071226162
+p-value with Win %: 0.0004719667081647647
+Stat: Lc  
+Correlation of Lc with win %: -0.5616749552161566
+p-value with Win %: 0.0008227805778662834
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.6659110713483092
+p-value with Win %: 3.186810948149162e-05
+-------------------------------------------
+2018
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9399832948819506
+p-value with Win %: 1.499413288003821e-15
+Stat: TO For  
+Correlation of TO For with win %: 0.5146704459450913
+p-value with Win %: 0.002579606622711483
+Stat: TO Against  
+Correlation of TO Against with win %: -0.5463747382774622
+p-value with Win %: 0.001215549549410366
+Stat: TD  
+Correlation of TD with win %: 0.6709042711790372
+p-value with Win %: 2.6417930500792203e-05
+Stat: Wc  
+Correlation of Wc with win %: 0.6781742985808766
+p-value with Win %: 1.997698300364035e-05
+Stat: Lc  
+Correlation of Lc with win %: -0.35464742977252967
+p-value with Win %: 0.04641054601586347
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.644576613901442
+p-value with Win %: 6.839874306091415e-05
+-------------------------------------------
+2017
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9088314391177181
+p-value with Win %: 6.421713576433132e-13
+Stat: TO For  
+Correlation of TO For with win %: 0.45349621051947897
+p-value with Win %: 0.009139684768650692
+Stat: TO Against  
+Correlation of TO Against with win %: -0.6663039314715831
+p-value with Win %: 3.1405240044138993e-05
+Stat: TD  
+Correlation of TD with win %: 0.6718945795346631
+p-value with Win %: 2.5442601760362095e-05
+Stat: Wc  
+Correlation of Wc with win %: 0.6908793125254941
+p-value with Win %: 1.2026593049428679e-05
+Stat: Lc  
+Correlation of Lc with win %: -0.5192555770411073
+p-value with Win %: 0.0023239055154509096
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.7058789068569418
+p-value with Win %: 6.387987993549738e-06
+-------------------------------------------
+2016
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.869616983075562
+p-value with Win %: 1.0489661294847529e-10
+Stat: TO For  
+Correlation of TO For with win %: 0.48185069438496975
+p-value with Win %: 0.0052306280963104685
+Stat: TO Against  
+Correlation of TO Against with win %: -0.6514117595919252
+p-value with Win %: 5.389654307225859e-05
+Stat: TD  
+Correlation of TD with win %: 0.7613921192044967
+p-value with Win %: 4.186961536661227e-07
+Stat: Wc  
+Correlation of Wc with win %: 0.7184519917457386
+p-value with Win %: 3.6455397933945724e-06
+Stat: Lc  
+Correlation of Lc with win %: -0.679812477372834
+p-value with Win %: 1.8737676826194866e-05
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.8207298039928372
+p-value with Win %: 8.820755057710902e-09
+-------------------------------------------
+2015
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9378977943423967
+p-value with Win %: 2.4679434278805096e-15
+Stat: TO For  
+Correlation of TO For with win %: 0.7338387097255757
+p-value with Win %: 1.7598879436050186e-06
+Stat: TO Against  
+Correlation of TO Against with win %: -0.47176850920806845
+p-value with Win %: 0.006412743327451676
+Stat: TD  
+Correlation of TD with win %: 0.7974251962045689
+p-value with Win %: 4.668141476190314e-08
+Stat: Wc  
+Correlation of Wc with win %: 0.5974122372618097
+p-value with Win %: 0.0003060576439433798
+Stat: Lc  
+Correlation of Lc with win %: -0.5811214391996549
+p-value with Win %: 0.00048721415530897507
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.7094543911476424
+p-value with Win %: 5.462260956131098e-06
+-------------------------------------------
+2014
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9459923767620009
+p-value with Win %: 3.2080109864323306e-16
+Stat: TO For  
+Correlation of TO For with win %: 0.45306666839457144
+p-value with Win %: 0.009214068558566544
+Stat: TO Against  
+Correlation of TO Against with win %: -0.5583143165523627
+p-value with Win %: 0.0008978615356990481
+Stat: TD  
+Correlation of TD with win %: 0.6935833472346897
+p-value with Win %: 1.0760004733882779e-05
+Stat: Wc  
+Correlation of Wc with win %: 0.6958658653392055
+p-value with Win %: 9.786163392960035e-06
+Stat: Lc  
+Correlation of Lc with win %: -0.6850889997956866
+p-value with Win %: 1.5202994996488806e-05
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.634171504718147
+p-value with Win %: 9.723856458139145e-05
+-------------------------------------------
+2013
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9438978706367059
+p-value with Win %: 5.597332213430165e-16
+Stat: TO For  
+Correlation of TO For with win %: 0.5117034523125937
+p-value with Win %: 0.0027577691118675545
+Stat: TO Against  
+Correlation of TO Against with win %: -0.5415015384478887
+p-value with Win %: 0.0013711522564400565
+Stat: TD  
+Correlation of TD with win %: 0.6460008824061125
+p-value with Win %: 6.511669970005437e-05
+Stat: Wc  
+Correlation of Wc with win %: 0.582445808796022
+p-value with Win %: 0.0004695707870572766
+Stat: Lc  
+Correlation of Lc with win %: -0.5265752997818283
+p-value with Win %: 0.001961244275516074
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.6321169854423685
+p-value with Win %: 0.00010407656812200179
+-------------------------------------------
+2012
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9167639997042898
+p-value with Win %: 1.7304515794088635e-13
+Stat: TO For  
+Correlation of TO For with win %: 0.45828351533360323
+p-value with Win %: 0.008344490218135641
+Stat: TO Against  
+Correlation of TO Against with win %: -0.719396666965729
+p-value with Win %: 3.4909039909709337e-06
+Stat: TD  
+Correlation of TD with win %: 0.6695261562561572
+p-value with Win %: 2.7831267395488823e-05
+Stat: Wc  
+Correlation of Wc with win %: 0.6581402200788552
+p-value with Win %: 4.2380488572673174e-05
+Stat: Lc  
+Correlation of Lc with win %: -0.44038535708843596
+p-value with Win %: 0.011652865900444731
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.4632356108408754
+p-value with Win %: 0.007584474343423904
+-------------------------------------------
+2011
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9205499538163872
+p-value with Win %: 8.832781371277668e-14
+Stat: TO For  
+Correlation of TO For with win %: 0.4325790749708771
+p-value with Win %: 0.01340849196045995
+Stat: TO Against  
+Correlation of TO Against with win %: -0.4915472889231487
+p-value with Win %: 0.004275030689381209
+Stat: TD  
+Correlation of TD with win %: 0.5585477567064158
+p-value with Win %: 0.0008924581740006248
+Stat: Wc  
+Correlation of Wc with win %: 0.613910121755226
+p-value with Win %: 0.00018619225816435544
+Stat: Lc  
+Correlation of Lc with win %: -0.6689246225217058
+p-value with Win %: 2.8469250206501732e-05
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.7464411521352281
+p-value with Win %: 9.333270875005328e-07
+-------------------------------------------
+2010
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9056783734275226
+p-value with Win %: 1.0465794911261135e-12
+Stat: TO For  
+Correlation of TO For with win %: 0.4670506874584177
+p-value with Win %: 0.007039858408345055
+Stat: TO Against  
+Correlation of TO Against with win %: -0.588758207350934
+p-value with Win %: 0.0003930061289425157
+Stat: TD  
+Correlation of TD with win %: 0.7180800444484952
+p-value with Win %: 3.7081121334675414e-06
+Stat: Wc  
+Correlation of Wc with win %: 0.7756128400742013
+p-value with Win %: 1.8480737307670365e-07
+Stat: Lc  
+Correlation of Lc with win %: -0.43091119777569126
+p-value with Win %: 0.013811004289199045
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.7196273942292806
+p-value with Win %: 3.45405250056524e-06
+-------------------------------------------
+2009
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.928041403981235
+p-value with Win %: 2.1038655164837147e-14
+Stat: TO For  
+Correlation of TO For with win %: 0.4122033372498941
+p-value with Win %: 0.019062069715773233
+Stat: TO Against  
+Correlation of TO Against with win %: -0.6676021388410092
+p-value with Win %: 2.99184123849722e-05
+Stat: TD  
+Correlation of TD with win %: 0.690219588601434
+p-value with Win %: 1.2355385591755851e-05
+Stat: Wc  
+Correlation of Wc with win %: 0.6230201458046561
+p-value with Win %: 0.00013980959990662184
+Stat: Lc  
+Correlation of Lc with win %: -0.4486433731593765
+p-value with Win %: 0.01001032458577446
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.39091739032506534
+p-value with Win %: 0.02694918549658893
+-------------------------------------------
+2008
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9112452881587445
+p-value with Win %: 4.365267958512397e-13
+Stat: TO For  
+Correlation of TO For with win %: 0.21853809298304014
+p-value with Win %: 0.2295013773293152
+Stat: TO Against  
+Correlation of TO Against with win %: -0.43426727038522117
+p-value with Win %: 0.01301113659964021
+Stat: TD  
+Correlation of TD with win %: 0.43231486737129965
+p-value with Win %: 0.013471590273405826
+Stat: Wc  
+Correlation of Wc with win %: 0.6771467896773937
+p-value with Win %: 2.0791564444798272e-05
+Stat: Lc  
+Correlation of Lc with win %: -0.5696004683141993
+p-value with Win %: 0.0006671688048799563
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.7873412067113039
+p-value with Win %: 8.994594312909511e-08
+-------------------------------------------
+2007
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9396494072699182
+p-value with Win %: 1.62586510170212e-15
+Stat: TO For  
+Correlation of TO For with win %: 0.4489455881689026
+p-value with Win %: 0.00995413143870427
+Stat: TO Against  
+Correlation of TO Against with win %: -0.5676162258704223
+p-value with Win %: 0.000703469778741353
+Stat: TD  
+Correlation of TD with win %: 0.6329682393712489
+p-value with Win %: 0.00010119285206303367
+Stat: Wc  
+Correlation of Wc with win %: 0.4815411230894574
+p-value with Win %: 0.005263928953845175
+Stat: Lc  
+Correlation of Lc with win %: -0.5345355490101893
+p-value with Win %: 0.001623734300331286
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.6739758058553501
+p-value with Win %: 2.349784672124236e-05
+-------------------------------------------
+2006
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9020279034484195
+p-value with Win %: 1.804148220795705e-12
+Stat: TO For  
+Correlation of TO For with win %: 0.4308715142029223
+p-value with Win %: 0.013820703106926442
+Stat: TO Against  
+Correlation of TO Against with win %: -0.4980514414088202
+p-value with Win %: 0.0037217584682785374
+Stat: TD  
+Correlation of TD with win %: 0.7325620053028539
+p-value with Win %: 1.8729979381035244e-06
+Stat: Wc  
+Correlation of Wc with win %: 0.602603484925643
+p-value with Win %: 0.00026251902601116925
+Stat: Lc  
+Correlation of Lc with win %: -0.5498418368479404
+p-value with Win %: 0.0011144761458937922
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.7040244851098356
+p-value with Win %: 6.922120578133742e-06
+-------------------------------------------
+2005
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9466459964200611
+p-value with Win %: 2.6842526348835916e-16
+Stat: TO For  
+Correlation of TO For with win %: 0.5986319968902156
+p-value with Win %: 0.00029528898737282147
+Stat: TO Against  
+Correlation of TO Against with win %: -0.6883054868144848
+p-value with Win %: 1.3355840829245628e-05
+Stat: TD  
+Correlation of TD with win %: 0.789026975042684
+p-value with Win %: 8.080418639810818e-08
+Stat: Wc  
+Correlation of Wc with win %: 0.7462522466958357
+p-value with Win %: 9.424960836828988e-07
+Stat: Lc  
+Correlation of Lc with win %: -0.7387110911047814
+p-value with Win %: 1.383023894597127e-06
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.8523247012760011
+p-value with Win %: 6.01940109635852e-10
+-------------------------------------------
+2004
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.8814855006652054
+p-value with Win %: 2.7215397504868678e-11
+Stat: TO For  
+Correlation of TO For with win %: 0.3617404650176274
+p-value with Win %: 0.04191362354482752
+Stat: TO Against  
+Correlation of TO Against with win %: -0.6457323728562452
+p-value with Win %: 6.572442036044908e-05
+Stat: TD  
+Correlation of TD with win %: 0.6086620311287025
+p-value with Win %: 0.00021873433969539502
+Stat: Wc  
+Correlation of Wc with win %: 0.551578567694585
+p-value with Win %: 0.001066675011562872
+Stat: Lc  
+Correlation of Lc with win %: -0.6693439333801938
+p-value with Win %: 2.8023158326874854e-05
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.40946571665572407
+p-value with Win %: 0.019953858877979562
+-------------------------------------------
+2003
+Stat: Pt Diff  
+Correlation of Pt Diff with win %: 0.9042542116393874
+p-value with Win %: 1.2976598892542393e-12
+Stat: TO For  
+Correlation of TO For with win %: 0.5858826191903288
+p-value with Win %: 0.0004263930468454012
+Stat: TO Against  
+Correlation of TO Against with win %: -0.33436443810160604
+p-value with Win %: 0.06142280492789637
+Stat: TD  
+Correlation of TD with win %: 0.6853348170478728
+p-value with Win %: 1.5054087945094033e-05
+Stat: Wc  
+Correlation of Wc with win %: 0.6275619421948024
+p-value with Win %: 0.00012079303096153587
+Stat: Lc  
+Correlation of Lc with win %: -0.5934900290657237
+p-value with Win %: 0.00034308615146612083
+Stat: W-L% one score  
+Correlation of W-L% one score with win %: 0.7163768734795054
+p-value with Win %: 4.007279131855126e-06
+-------------------------------------------
