@@ -2,6 +2,7 @@
 # Sharp article here: https://www.sharpfootballanalysis.com/betting/numbers-that-matter-for-predicting-nfl-win-totals-part-one/
 #Scrapes Pro-Football Reference for data
 
+import os
 import pandas as pd
 import requests
 import numpy as np
@@ -35,7 +36,7 @@ def getDiff(season, return_teams=True):
     
 #    print(df)
     
-    return df['PD']
+    return pd.to_numeric(df['PD'])
 
 def oneScoreRecord(season, team='All'):
     '''
@@ -80,7 +81,7 @@ def getTOMargin(season):
     season: int or str, season for which turnover stats are deisred
     '''
 #    reading in TOs for each team's defense (turnovers created)
-    url_def = f"https://www.pro-football-reference.com/years/{season}/opp.htm#team_stats"
+    url_def = f"https://www.pro-football-reference.com/years/{season}/opp.htm"
     
     ddf = pd.read_html(url_def)[0]
     ddf.columns = [c[1] for c in ddf.columns]
@@ -131,6 +132,9 @@ def winLossPct(season):
     
 
 def scatterPlot(df, col, season):
+    '''
+    Plots scatter plot of some metric (x-axis) vs win %
+    '''
     print(f"Checking metric {col} for correlation with W-L%")
     plt.scatter(df[col],df['W-L%'])
     plt.xlabel(col)
@@ -162,6 +166,8 @@ def checkCorrs():
             df = pd.DataFrame(data = {'Pt Diff': pt_diff.sort_index(), 'W-L%': wl.sort_index(), 'TO For': to_for, 'TO Against': to_against, 'TD': to_diff, 'Wc': w, "Lc": l, "W-L% one score":pct}).astype(float)
             df = df.fillna(0)
             print(df.head())
+            
+            df.to_csv(os.path.join('.','season_stats', f'nfl_stats_{s}.csv'))
 
             
     #        Doing it for each stat column in our DataFrame
@@ -192,16 +198,57 @@ def checkCorrs():
     print(cf)
     return cf
 
+def getSeasonData(season, save_csv=False):
+    '''Returns key stats df for selected season'''
+    to_for, to_against, to_diff = getTOMargin(season)
+    w, l, pct = oneScoreRecord(season, 'All')
+    pt_diff = getDiff(season)
+    wl = winLossPct(season)
+
+    #    Combining stats into one DataFrame
+    df = pd.DataFrame(data = {'Pt Diff': pt_diff.sort_index(), 'W-L%': wl.sort_index(), 'TO For': to_for, 'TO Against': to_against, 'TD': to_diff, 'Wc': w, "Lc": l, "W-L% one score":pct}).astype(float)
+    df = df.fillna(0)
+    print(df)
     
+    if save_csv:
+        df.to_csv(f'testing_data_{season}.csv')#.head())
+    
+    f, ax = plt.subplots()
+    ax.hist(df['Pt Diff'])
+    ax.set_title(season)
+    ax.set_xlabel('Point Differential')
+#    plt.show()
+    f.savefig(f'plots/pt_diff/pt_diff_{season}.pdf')
+    
+    return df
+
+def potentialWinningPcts():
+    '''
+    Spits out list of all possible records and winning % with  17-game schedule
+    '''
+    w=0
+    l = 17
+    records = {}
+    while w <= 17 and l >= 0:
+        win_pct = w/(w + l)
+        records[f'{w}-{l}'] = round(win_pct, 3)
+        
+        w += 1
+        l -= 1
+        
+    print(records)
+        
+    
+    
+
+
+#Want to see how these values (TD, PD, Close-game win %) vary season to season
+
+
 if __name__ == "__main__":
 
 # Pt Diff, One-Score Record, Turnover Diff seem to be the most correlated (from what we've checked with W%
 # Monte Carlo simulation for game prediction: https://en.wikipedia.org/wiki/Monte_Carlo_method
-
-    cf = checkCorrs()
     
-    plt.scatter(cf['W-L% one score'], cf['Pt Diff'])
-    plt.xlabel('One-score game Win %')
-    plt.ylabel('Pt Diff')
-    
-    plt.show()
+    getSeasonData(2020)
+    potentialWinningPcts()
