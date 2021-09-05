@@ -29,6 +29,7 @@ def getDiff(season, return_teams=True):
     
     df.index = df['Tm']
     df = df.drop(divisions, axis=0)
+    df.to_csv(f'./standings/nfl_standings-{season}.csv')
     
 #    Dropping team names as series index labels if desired (default True)
     if not return_teams:
@@ -252,3 +253,7 @@ if __name__ == "__main__":
     
     getSeasonData(2020)
     potentialWinningPcts()
+    
+    for s in range(2020,2002,-1):
+        getDiff(s)
+    

@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import os
 import matplotlib.pyplot as plt
+import pymc3 as pm
 
 
 def getTOMargin(season):
@@ -28,6 +29,12 @@ def getTOMargin(season):
     ddf.index, odf.index = ddf['Tm'], odf['Tm']
     ddf = ddf.drop(['Avg Team', "Avg Tm/G", "League Total"], axis=0)
     
+#    Writing to files
+    
+    odf.to_csv(os.path.join('.','stats',f'offenseStats-{season}.csv'))
+    ddf.to_csv(os.path.join('.','stats',f'defenseStats-{season}.csv'))
+    
+    
     to_for = ddf['TO'] # Defensive turnovers
     to_against = odf['TO']
     
@@ -37,7 +44,7 @@ def getTOMargin(season):
     
     return to_for, to_against, to_diff
 
-def plotHistoricalTODiff():
+def plotHistoricalTODiff(plot_dist=True):
     '''
     Plots distribution of NFL Turnover differentials for seasons 2002-2020
     They follow a decently symmetrical/normal(?) distribution
@@ -52,17 +59,32 @@ def plotHistoricalTODiff():
         
     print(diffs)
     df = pd.concat(diffs)
-    print(type(df))
     
-    f,ax = plt.subplots()
-    ax.hist(df, bins=len(np.unique(df)))
-    plt.xlabel('Turnover diff 2002 - 2020')
-    plt.show()
+    if plot_dist:
+        f,ax = plt.subplots()
+        ax.hist(df, bins=len(np.unique(df)))
+        plt.xlabel('Turnover diff 2002 - 2020')
+        plt.show()
+    return df
     
 ########## Markov Chain Implementation ###########
 
+#Bayesian Stats article: https://en.wikipedia.org/wiki/Posterior_probability
+
 
 if __name__  == '__main__':
-    print('Foo foo I like poo')
+    print('Playing around with MCMC implementation')
+    df = plotHistoricalTODiff(False)
     
+#    Setting up pymc3 model
+    with pm.Model():
+
+        x = pm.Normal('x', mu=np.mean(df), sigma=np.std(df))
+        y = pm.Normal('y', mu=np.mean(df), sigma=np.std(df), observed=list(df))
+        r = x.random(size=500)
+        print(r)
+        
+        plt.hist(r)
+        print(y, type(y))
+        plt.show()
 
