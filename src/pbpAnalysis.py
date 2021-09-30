@@ -25,7 +25,13 @@ team_codes = {'Dallas Cowboys':'dal', 'Atlanta Falcons':'atl',
               'Kansas City Chiefs': 'kan', 'Tampa Bay Buccaneers': 'tam',
               'San Francisco 49ers': 'sfo', 'Los Angeles Rams': 'lar',
               'Denver Broncos': 'den', 'Carolina Panthers': 'car',
-              'Las Vegas Raiders':'rai', 'Arizona Cardinals': 'ari'}
+              'Las Vegas Raiders':'rai', 'Arizona Cardinals': 'ari',
+#              Relocated teams
+              'Oakland Raiders': 'rai', 'St. Louis Rams':'ram',
+              'San Diego Chargers': 'sdg', 'Washington Redskins': 'was',
+              'Tennessee Oilers': 'oti'
+              
+}
             #KC-Browns embed link:
 #script src="https://widgets.sports-reference.com/wg.fcgi?css=1&site=pfr&url=%2Fboxscores%2F202109120kan.htm&div=div_pbp
 
@@ -40,7 +46,7 @@ def getNFLSchedule(season):
     '''
     url = f"https://www.pro-football-reference.com/years/{season}/games.htm#games"
     df = pd.read_html(url, header=0, displayed_only=True)[0]
-    df = df[df['Week']!='Week']
+    df = df[(df['Week']!='Week') & (df['Date']!='Playoffs')]
     df.columns = ['Week', 'Day', 'Date', 'Time', 'Winner/tie', 'location',                  'Loser/tie', 'Unnamed: 7', 'PtsW', 'PtsL', 'YdsW',  'TOW',              'YdsL', 'TOL']
 #    Setting home & away teams based on location column
 #    If there's an @ symbol, the loser/tie column is the home team
@@ -70,30 +76,33 @@ def getPlayByPlay(url):
 
 if __name__=="__main__":
 #   Loops through each game in 2020 season (can be changed) and produces play-by-play log for that game
-    sched = getNFLSchedule(2020)
-    
-    #    Writing schedule df to a db to test out sqlalchemy
-    print('#######################################')
-    engine = db.create_engine('sqlite:///../db/nfl.db', echo=False)
-    with engine.begin() as connection:
-        sched.to_sql('schedule', con=connection, if_exists='replace')
-        query = engine.execute("SELECT * FROM schedule WHERE TOL>=3").fetchall()
-        print(query)
-        print('db queried!')
-    print('#######################################')
 
-    for index, row in sched.head(n=16).iterrows():
-        print(f"{row['Home Team']} vs. {row['Away Team']} {row['Date']}")
-        game_date = row['Date Formatted']
-        home_team = team_codes[row['Home Team']]
-        url = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=pfr&url=%2Fboxscores%2F{game_date}0{home_team}.htm&div=div_pbp"
-        df = getPlayByPlay(url)
+    for year in range(2020, 1997, -1):
+        print(year)
+        sched = getNFLSchedule(year)
+        
+        #    Writing schedule df to a db to test out sqlalchemy
+        print('#######################################')
+        engine = db.create_engine('sqlite:///../db/nfl.db', echo=False)
         with engine.begin() as connection:
-            df.to_sql(f'{home_team}{game_date}', con=connection)
+            sched.to_sql(f'schedule{year}', con=connection, if_exists='replace')
 #            query = engine.execute("SELECT * FROM schedule WHERE TOL>=3").fetchall()
 #            print(query)
-            print('Play-by-Play inserted into db!')
-        
-        print('--------------------------------------------------------------')
+            print('db queried!')
+        print('#######################################')
+
+        for index, row in sched.iterrows():
+            print(f"{row['Home Team']} vs. {row['Away Team']} {row['Date']}")
+            game_date = row['Date Formatted']
+            home_team = team_codes[row['Home Team']]
+            url = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=pfr&url=%2Fboxscores%2F{game_date}0{home_team}.htm&div=div_pbp"
+            df = getPlayByPlay(url)
+            with engine.begin() as connection:
+                df.to_sql(f'{home_team}{game_date}', con=connection, if_exists='replace')
+    #            query = engine.execute("SELECT * FROM schedule WHERE TOL>=3").fetchall()
+    #            print(query)
+                print('Play-by-Play inserted into db!')
+            
+            print('--------------------------------------------------------------')
     
 
