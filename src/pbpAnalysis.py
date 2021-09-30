@@ -3,6 +3,9 @@
 
 import pandas as pd
 import numpy as np
+#from sqlalchemy import create_engine
+import sqlalchemy as db
+
 
 #sample_url = "https://widgets.sports-reference.com/wg.fcgi?css=1&site=pfr&url=%2Fboxscores%2F202109090tam.htm&div=div_pbp"
 sample_url = "https://widgets.sports-reference.com/wg.fcgi?css=1&site=pfr&url=%2Fboxscores%2F202109120atl.htm&div=div_pbp"
@@ -68,10 +71,29 @@ def getPlayByPlay(url):
 if __name__=="__main__":
 #   Loops through each game in 2020 season (can be changed) and produces play-by-play log for that game
     sched = getNFLSchedule(2020)
+    
+    #    Writing schedule df to a db to test out sqlalchemy
+    print('#######################################')
+    engine = db.create_engine('sqlite:///../db/nfl.db', echo=False)
+    with engine.begin() as connection:
+        sched.to_sql('schedule', con=connection, if_exists='replace')
+        query = engine.execute("SELECT * FROM schedule WHERE TOL>=3").fetchall()
+        print(query)
+        print('db queried!')
+    print('#######################################')
+
     for index, row in sched.head(n=16).iterrows():
         print(f"{row['Home Team']} vs. {row['Away Team']} {row['Date']}")
         game_date = row['Date Formatted']
         home_team = team_codes[row['Home Team']]
         url = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=pfr&url=%2Fboxscores%2F{game_date}0{home_team}.htm&div=div_pbp"
         df = getPlayByPlay(url)
+        with engine.begin() as connection:
+            df.to_sql(f'{home_team}{game_date}', con=connection)
+#            query = engine.execute("SELECT * FROM schedule WHERE TOL>=3").fetchall()
+#            print(query)
+            print('Play-by-Play inserted into db!')
+        
         print('--------------------------------------------------------------')
+    
+
