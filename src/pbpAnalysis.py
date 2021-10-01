@@ -37,6 +37,8 @@ team_codes = {'Dallas Cowboys':'dal', 'Atlanta Falcons':'atl',
 
 # Need to find a way to source game dates and re-format them (as well as home team
 sched_url = "https://www.pro-football-reference.com/years/2021/games.htm#games"
+
+
 def getNFLSchedule(season):
     '''
     Pulls NFL Schedule from pro-football-reference.com
@@ -44,6 +46,7 @@ def getNFLSchedule(season):
     parameters:
         season - int or str; season desired
     '''
+#    Reading in and re-formatting NFL season sched
     url = f"https://www.pro-football-reference.com/years/{season}/games.htm#games"
     df = pd.read_html(url, header=0, displayed_only=True)[0]
     df = df[(df['Week']!='Week') & (df['Date']!='Playoffs')]
@@ -66,15 +69,11 @@ def getPlayByPlay(url):
     parameters:
         url - str; url to table included in
     '''
-        
-    df = pd.read_html(sample_url, header=0, displayed_only=True)[0]
+    return pd.read_html(sample_url, header=0, displayed_only=True)[0]
 
-    print(df.head())
-    return df
-
-#sample_url = "https://widgets.sports-reference.com/wg.fcgi?css=1&site=pfr&url=%2Fboxscores%2F202109120atl.htm&div=div_pbp"
 
 if __name__=="__main__":
+
 #   Loops through each game in 2020 season (can be changed) and produces play-by-play log for that game
 
     for year in range(2020, 1997, -1):
