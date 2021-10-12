@@ -54,7 +54,8 @@ if __name__ == "__main__":
     sb = superBowlWinners()
 #    yardsPerPlay(2020)
     print(sb['Winner'])
-    
+    yardage = []
+    ranks = []
     for s in range(2020,2002,-1):
         print(s)
         sb_winner = sb['Winner'].loc[sb['Season']==s].values[0]
@@ -65,8 +66,13 @@ if __name__ == "__main__":
         avg_yds_rank = df.index[df['Tm']==sb_winner].values[0] + 1
         avg_yds = df['Y/P'].loc[df['Tm']==sb_winner].values[0]
         
+        yardage.append(avg_yds)
+        ranks.append(avg_yds_rank)
+        
         print(f'{sb_winner} yards-per-play: {avg_yds}')
         print(f'{s} NFL Rank: {avg_yds_rank}')
         print('--------------------------------------')
 
 
+    print(yardage)
+    print(ranks)

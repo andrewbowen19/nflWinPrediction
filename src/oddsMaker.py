@@ -26,7 +26,11 @@ nfl_url = f"https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?re
 def getBestOdds(df):
     '''
     Pulls best odds from Odds-API response
+    
+    parameters:
+        df - pandas.DataFrame object; contains matchup data for a given NFL week
     '''
+    print('DATAFRAME:', df)
     away_team = df['away_team'].iloc[1]
     home_team = df['home_team'].iloc[1]
     print(f'Selecting best odds for matchup: {away_team} @ {home_team}')

@@ -52,12 +52,17 @@ class winPredictor(object):
         
         df.index = df['Tm']
         df = df.drop(divisions, axis=0)
-        df.to_csv(f'./standings/nfl_standings-{season}.csv')
+        df.to_csv(os.path.join('.','standings',f'nfl_standings-{season}.csv'))
         
     #    Dropping team names as series index labels if desired (default True)
         if not return_teams:
             df.index = np.arange(0,len(df), 1)
-        
+            
+#        Selecting a single team's Pt Diff if desired by user
+        if self.team != "All":
+            df = df.loc[df['Tm']==self.team]
+            
+
         return pd.to_numeric(df['PD'])
 
     def oneScoreRecord(self, season, team='All'):
@@ -229,9 +234,11 @@ if __name__ == "__main__":
 # Pt Diff, One-Score Record, Turnover Diff seem to be the most correlated (from what we've checked with W%
 # Monte Carlo simulation for game prediction: https://en.wikipedia.org/wiki/Monte_Carlo_method
     
-    getSeasonData(2020)
-    potentialWinningPcts()
-    
-    for s in range(2020,2002,-1):
-        getPtDiff(s)
-    
+#    getSeasonData(2020)
+#    potentialWinningPcts()
+#
+#    for s in range(2020,2002,-1):
+#        getPtDiff(s)
+    w = winPredictor(season=2020, team='Chicago Bears')
+    xx = w.getPtDiff(2020, False)
+    print(xx)
