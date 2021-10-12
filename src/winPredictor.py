@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
 
 
-
 class winPredictor(object):
     '''
     This class scrapes Pro-Football-Reference.com for the 3 stats most highly correlated with NFL win %:
@@ -52,7 +51,7 @@ class winPredictor(object):
         
         df.index = df['Tm']
         df = df.drop(divisions, axis=0)
-        df.to_csv(os.path.join('.','standings',f'nfl_standings-{season}.csv'))
+        df.to_csv(os.path.join('..', 'data', 'standings', f'nfl_standings-{season}.csv'))
         
     #    Dropping team names as series index labels if desired (default True)
         if not return_teams:
@@ -82,9 +81,9 @@ class winPredictor(object):
         
         df = pd.read_html(url)[0].drop(['Unnamed: 5'], axis=1)
         df = df.drop_duplicates(keep=False)
-        
+        print('FOO', df)
     #    Adding point diff column and selecting one-score games
-        df['PD'] = pd.to_numeric(df['Pts']) - pd.to_numeric(df['Pts.1'])
+        df['PD'] = pd.to_numeric(df['PtsW']) - pd.to_numeric(df['PtsL'])
         close_games = df.loc[df['PD']<=8.0]
         
     #    Getting # of close games by team
@@ -96,8 +95,8 @@ class winPredictor(object):
             close_wins_by_team = close_wins_by_team[team]
             close_loss_by_team = close_loss_by_team[team]
             
-    #    Win % in one-score games by team
-        close_game_win_pct = round((close_wins_by_team / (close_wins_by_team + close_loss_by_team)), 3)
+    #    Win % in one-score games by team - pandas Series with Name
+        close_game_win_pct = round(pd.Series((close_wins_by_team / (close_wins_by_team + close_loss_by_team)), name='CGR'), 3)
                 
     #    print('Wins in one-score games: \n', close_wins_by_team)
     #    print('Losses in one-score games:\n', close_loss_by_team)
@@ -139,9 +138,31 @@ class winPredictor(object):
         
         return to_for, to_against, to_diff
         
+    def candlestickStats(self, season=2020):
+        '''
+        Returns predictive inputs for out model in a pandas dataframe
+        
+        Needed data:
+            - team
+            - turnover diff
+            - pt diff
+            - close game record
+        '''
+        
+        to_f, to_a, to_diff = self.getTOMargin(season)
+        c_w, c_l, c_pct = self.oneScoreRecord(season)
+        pt_diff = self.getPtDiff(season)
+        
+#        Combining series into a singular df
+        df = pd.concat([to_diff, c_pct, pt_diff], axis=1)
+        
+        print(df.head())
+        
+        return df
+    
     def winLossPct(self, season):
         '''
-        Returns total win/loss % for each team for a given season
+        Returns recorded total win/loss % for each team for a given season
 
         parameters:
             season - int or str (default 2020); season for which turnover stats are deisred
@@ -164,9 +185,9 @@ class winPredictor(object):
         df.index = df['Tm']
         df = df.drop(divisions, axis=0)
 
-        
         return df['W-L%']
 
+    
 ################################################################################################
 ################################################################################################
 ################################################################################################
@@ -239,6 +260,6 @@ if __name__ == "__main__":
 #
 #    for s in range(2020,2002,-1):
 #        getPtDiff(s)
-    w = winPredictor(season=2020, team='Chicago Bears')
-    xx = w.getPtDiff(2020, False)
-    print(xx)
+    w = winPredictor(season=2020)
+    w.candlestickStats(2020)
+#    print(xx)
