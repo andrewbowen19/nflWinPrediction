@@ -39,7 +39,7 @@ team_codes = {'Dallas Cowboys':'dal', 'Atlanta Falcons':'atl',
 sched_url = "https://www.pro-football-reference.com/years/2021/games.htm#games"
 
 
-def getNFLSchedule(season):
+def get_nfl_schedule(season):
     '''
     Pulls NFL Schedule from pro-football-reference.com
     
@@ -61,7 +61,7 @@ def getNFLSchedule(season):
 
     return df
 
-def getPlayByPlay(url):
+def get_pbp(url):
     '''
     Gets play-by-play data for a given NFL game.
     Scrapes data from pro-football-reference.com
@@ -69,7 +69,7 @@ def getPlayByPlay(url):
     parameters:
         url - str; url to table included in
     '''
-    return pd.read_html(sample_url, header=0, displayed_only=True)[0]
+    return pd.read_html(url, header=0, displayed_only=True)[0]
 
 def construct_pbp_db(start=1997, end=20202):
     '''
@@ -89,7 +89,7 @@ def construct_pbp_db(start=1997, end=20202):
     engine = db.create_engine('sqlite:///../db/nfl.db', echo=False)
     for year in range(end, start, -1):
         print(year)
-        sched = getNFLSchedule(year)
+        sched = get_nfl_schedule(year)
         
         #    Writing schedule df to a db to test out sqlalchemy
         print('#######################################')
@@ -105,19 +105,40 @@ def construct_pbp_db(start=1997, end=20202):
             game_date = row['Date Formatted']
             home_team = team_codes[row['Home Team']]
             url = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=pfr&url=%2Fboxscores%2F{game_date}0{home_team}.htm&div=div_pbp"
-            df = getPlayByPlay(url)
+            df = get_pbp(url)
             with engine.begin() as connection:
                 df.to_sql(f'{home_team}{game_date}', con=connection, if_exists='replace')
 
                 print('Play-by-Play inserted into db!')
             
             print('--------------------------------------------------------------')
-    print('SQLite DB created: ../db/nfl.db'')
+    print('SQLite DB created: ../db/nfl.db')
 
+def query_pbp_db(query="SELECT * FROM "):
+    '''
+    Queries our local nfl.db file (or the one created by construct_pbp_db)
+    
+    Utilizes pandas.read_sql functionality to enact the query
+    '''
+    engine = db.create_engine('sqlite:///../db/nfl.db', echo=False)
+    tables = engine.table_names()
 
+    df = pd.read_sql(query, con=engine)
+#    db.clear_compiled_cache()
+    
+    return df
 
 if __name__=="__main__":
 #    Only need to call this to append to for 2021 (maybe 2020 season)
 #    construct_pbp_db(2020,1997)
+    eng = db.create_engine('sqlite:///../db/nfl.db', echo=False)
+    tables = eng.table_names()
     
-
+    for t in tables[0:10]:
+        print(f'Table: {t}')
+        q = f"SELECT * FROM {t};"
+        print(q)
+        pbp = query_pbp_db(q)
+        print(pbp.head())
+        print(pbp['Detail'])
+        print('==============================================================')
