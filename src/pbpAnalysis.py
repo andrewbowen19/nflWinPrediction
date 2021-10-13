@@ -71,22 +71,32 @@ def getPlayByPlay(url):
     '''
     return pd.read_html(sample_url, header=0, displayed_only=True)[0]
 
-
-if __name__=="__main__":
-
-#   Loops through each game in 2020 season (can be changed) and produces play-by-play log for that game
-
-    for year in range(2020, 1997, -1):
+def construct_pbp_db(start=1997, end=20202):
+    '''
+    Constructs database of every NFL play
+    
+    Loops through each NFL season (default 2020 - 1997).
+    Scrapes pro-football reference for the NFL Schedule that year
+    Then scrapes each individual game in that season
+    Dumps results to our local db file (could host this on a MySQL server)
+    
+    parameters:
+        start : str or int; beginning year (default 1997)
+        end : str or int; ending year for search (default 2020)
+        
+    '''
+#   Loops through each game in a season (can be changed) and produces play-by-play log for each game in that season
+    engine = db.create_engine('sqlite:///../db/nfl.db', echo=False)
+    for year in range(end, start, -1):
         print(year)
         sched = getNFLSchedule(year)
         
         #    Writing schedule df to a db to test out sqlalchemy
         print('#######################################')
-        engine = db.create_engine('sqlite:///../db/nfl.db', echo=False)
+        
         with engine.begin() as connection:
             sched.to_sql(f'schedule{year}', con=connection, if_exists='replace')
-#            query = engine.execute("SELECT * FROM schedule WHERE TOL>=3").fetchall()
-#            print(query)
+
             print('db queried!')
         print('#######################################')
 
@@ -98,10 +108,16 @@ if __name__=="__main__":
             df = getPlayByPlay(url)
             with engine.begin() as connection:
                 df.to_sql(f'{home_team}{game_date}', con=connection, if_exists='replace')
-    #            query = engine.execute("SELECT * FROM schedule WHERE TOL>=3").fetchall()
-    #            print(query)
+
                 print('Play-by-Play inserted into db!')
             
             print('--------------------------------------------------------------')
+    print('SQLite DB created: ../db/nfl.db'')
+
+
+
+if __name__=="__main__":
+#    Only need to call this to append to for 2021 (maybe 2020 season)
+#    construct_pbp_db(2020,1997)
     
 
