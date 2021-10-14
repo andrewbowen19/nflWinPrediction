@@ -36,7 +36,6 @@ def superBowlWinners():
     Scrapes Pro-football reference
     https://www.pro-football-reference.com/super-bowl/
     
-    
     returns:
         df - pandas.DataFrame object containing historical Super Bowl matchups
     '''
@@ -56,7 +55,7 @@ if __name__ == "__main__":
     print(sb['Winner'])
     yardage = []
     ranks = []
-    for s in range(2020,2002,-1):
+    for s in range(2020, 2002,-1):
         print(s)
         sb_winner = sb['Winner'].loc[sb['Season']==s].values[0]
 #        sb_winner = sb_winner['Winner']

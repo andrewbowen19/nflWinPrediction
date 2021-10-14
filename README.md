@@ -7,6 +7,10 @@ To check this, utilize the
 The modules in this repository scrape historical NFL data from [Pro Football Reference](https://www.pro-football-reference.com).
 
 
+## TODO:
+
+- [ ] Create more structured db format for game-by-game tables
+- [ ] Markov Chain for year-over-year turnover and point differential regression
 
 
 
