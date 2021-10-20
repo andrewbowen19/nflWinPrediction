@@ -60,6 +60,7 @@ def plotHistoricalTODiff(plot_dist=True):
     print(diffs)
     df = pd.concat(diffs, axis=1)
     print(df)
+    df.to_csv('turnover_diff_by_team_by_season.csv', index=True)
     
     if plot_dist:
         f,ax = plt.subplots()
@@ -77,15 +78,15 @@ if __name__  == '__main__':
     print('Playing around with MCMC implementation')
     df = plotHistoricalTODiff(False)
     
-#    Setting up pymc3 model
-#    with pm.Model():
-#
-#        x = pm.Normal('x', mu=np.mean(df), sigma=np.std(df))
-#        y = pm.Normal('y', mu=np.mean(df), sigma=np.std(df), observed=list(df))
-#        r = x.random(size=500)
-#        print(r)
-#
-#        plt.hist(r)
-#        print(y, type(y))
-#        plt.show()
+    Setting up pymc3 model
+    with pm.Model():
+
+        x = pm.Normal('x', mu=np.mean(df), sigma=np.std(df))
+        y = pm.Normal('y', mu=np.mean(df), sigma=np.std(df), observed=list(df))
+        r = x.random(size=500)
+        print(r)
+
+        plt.hist(r)
+        print(y, type(y))
+        plt.show()
 
