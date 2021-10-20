@@ -31,8 +31,8 @@ def getTOMargin(season):
     
 #    Writing to files
     
-    odf.to_csv(os.path.join('.','stats',f'offenseStats-{season}.csv'))
-    ddf.to_csv(os.path.join('.','stats',f'defenseStats-{season}.csv'))
+    odf.to_csv(os.path.join('..', 'data', 'stats', f'offenseStats-{season}.csv'))
+    ddf.to_csv(os.path.join('..', 'data', 'stats',f'defenseStats-{season}.csv'))
     
     
     to_for = ddf['TO'] # Defensive turnovers
@@ -40,7 +40,7 @@ def getTOMargin(season):
     
     to_diff = to_for - to_against
 #    print(to_diff)
-    
+    to_diff = to_diff.rename(str(season))
     
     return to_for, to_against, to_diff
 
@@ -58,7 +58,8 @@ def plotHistoricalTODiff(plot_dist=True):
         diffs.append(td)
         
     print(diffs)
-    df = pd.concat(diffs)
+    df = pd.concat(diffs, axis=1)
+    print(df)
     
     if plot_dist:
         f,ax = plt.subplots()
@@ -77,14 +78,14 @@ if __name__  == '__main__':
     df = plotHistoricalTODiff(False)
     
 #    Setting up pymc3 model
-    with pm.Model():
-
-        x = pm.Normal('x', mu=np.mean(df), sigma=np.std(df))
-        y = pm.Normal('y', mu=np.mean(df), sigma=np.std(df), observed=list(df))
-        r = x.random(size=500)
-        print(r)
-        
-        plt.hist(r)
-        print(y, type(y))
-        plt.show()
+#    with pm.Model():
+#
+#        x = pm.Normal('x', mu=np.mean(df), sigma=np.std(df))
+#        y = pm.Normal('y', mu=np.mean(df), sigma=np.std(df), observed=list(df))
+#        r = x.random(size=500)
+#        print(r)
+#
+#        plt.hist(r)
+#        print(y, type(y))
+#        plt.show()
 

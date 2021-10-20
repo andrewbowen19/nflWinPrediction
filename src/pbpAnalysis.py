@@ -141,10 +141,44 @@ def query_pbp_db(query="SELECT * FROM "):
     
     return df
 
+def classify_play(series, detail):
+    '''
+    Maps play type from play-by-play description from PFR.
+    
+    Play categories:
+        - Run
+        - Pass
+        - Punt
+        - Kickoff
+        - Field Goal attempt
+        - Sack
+    '''
+    
+    play_types = {'guard': 'Run',
+                  'end': 'Run',
+                  'tackle': 'Run',
+                  'pass': 'Pass',
+                  'sacked': 'Sack',
+                  'kicks off': 'Kickoff',
+                  'punts': 'Punt',
+                  'field goal': 'FG',
+                  'Timeout': 'TO'
+                  
+                }
+    for p in series:
+        for k in list(play_types.keys()):
+            if k in detail:
+                play = play_types[k]
+                
+            else:
+                play = None
+        return play
+
+
 if __name__=="__main__":
 #    Only need to call this to append to for 2021 (maybe 2020 season)
-    construct_pbp_db(1999,2020)
-#    eng = db.create_engine('sqlite:///../db/nfl.db', echo=False)
+#    construct_pbp_db(1999,2020)
+    eng = db.create_engine('sqlite:///../db/nfl.db', echo=False)
 #    tables = eng.get_table_names()
 #
 #    for t in tables[0:10]:
@@ -155,3 +189,11 @@ if __name__=="__main__":
 #        print(pbp.head())
 #        print(pbp['Detail'])
 #        print('==============================================================')
+    query = f'SELECT * FROM was20170910;'
+    df = pd.read_sql(query, eng)
+#    print(df.head())
+#    print(df['Detail'])
+    
+    df['PlayType'] = df['Detail'].apply(classify_play)
+    print(df.head())
+    print(df['Detail'])
