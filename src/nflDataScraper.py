@@ -1,6 +1,10 @@
-# Script for predicting NFL Win totals
-# Sharp article here: https://www.sharpfootballanalysis.com/betting/numbers-that-matter-for-predicting-nfl-win-totals-part-one/
-#Scrapes Pro-Football Reference for data
+# nflWinPrediction/src/nflDataScraper.py
+
+'''
+Script for predicting NFL Win totals
+Sharp article here: https://www.sharpfootballanalysis.com/betting/numbers-that-matter-for-predicting-nfl-win-totals-part-one/
+Scrapes Pro-Football Reference for data
+'''
 
 import os
 import pandas as pd
@@ -26,50 +30,47 @@ class winPredictor(object):
         self.season = season
         self.team = team
 
-    def getPtDiff(self, season, return_teams=True):
+    def get_pt_diff(self, return_teams=True):
         '''
         Scrapes PFR for point differential
         
         parameters:
-            season - str or int, year to search for
             return_teams - boolean (default True);
                             if True, the pandas.DataFrame returned will include team names in the index
         '''
-        standings_url = f'https://www.pro-football-reference.com/years/{season}/'
+        # Scraping season data from PFR
+        standings_url = f'https://www.pro-football-reference.com/years/{self.season}/'
         dfs = pd.read_html(standings_url)
-
         df = pd.concat(dfs)
 
-    #    Dropping standings footnotes (*/+) and division labels from the table
+        # Dropping standings footnotes (*/+) and division labels from the table
         divisions = ['NFC West', 'NFC South',
                      'NFC North', 'NFC East',
                      'AFC West', 'AFC South',
                      'AFC North', 'AFC East']
-
         df['Tm'] = df['Tm'].str.replace('*','')
         df['Tm'] = df['Tm'].str.replace('+','')
         
         df.index = df['Tm']
         df = df.drop(divisions, axis=0)
-        df.to_csv(os.path.join('..', 'data', 'standings', f'nfl_standings-{season}.csv'))
+        csv_path = os.path.join('..', 'data', 'standings', f'nfl_standings-{self.season}.csv')
+        df.to_csv(csv_path)
         
-    #    Dropping team names as series index labels if desired (default True)
+        # Dropping team names as series index labels if desired (default True)
         if not return_teams:
             df.index = np.arange(0,len(df), 1)
             
-#        Selecting a single team's Pt Diff if desired by user
+        # Selecting a single team's Pt Diff if desired by user
         if self.team != "All":
             df = df.loc[df['Tm']==self.team]
-            
 
         return pd.to_numeric(df['PD'])
 
-    def oneScoreRecord(self, season, team='All'):
+    def one_score_record(self, team='All'):
         '''
         Scrapes PRF Results and returns # Wins, # Losses, and Win % for all (or selected) teams in one-score games (8-pt differential or less)
         
         parameters:
-            season - str or int, NFL season search is desired for
             team - str, (default All), searches for all teams if
             
         returns:
@@ -77,68 +78,62 @@ class winPredictor(object):
                 close_loss_by_team - pandas value_counts series of # of losses in one-score games for all teams (or a single team, if team != "All".
                 close_game_win_pct - pandas.Series of win % (close wins/close wins + close losses) in one-score games for all teams (or a single team, if team != "All".
         '''
-        url = f"https://www.pro-football-reference.com/years/{season}/games.htm"
+        url = f"https://www.pro-football-reference.com/years/{self.season}/games.htm"
         
         df = pd.read_html(url)[0].drop(['Unnamed: 5'], axis=1)
         df = df.drop_duplicates(keep=False)
-        print('FOO', df)
-    #    Adding point diff column and selecting one-score games
+
+        # Adding point diff column and selecting one-score games
         df['PD'] = pd.to_numeric(df['PtsW']) - pd.to_numeric(df['PtsL'])
         close_games = df.loc[df['PD']<=8.0]
         
-    #    Getting # of close games by team
+        # Getting # of close games by team
         close_wins_by_team = close_games['Winner/tie'].value_counts()
         close_loss_by_team = close_games['Loser/tie'].value_counts()
 
-    #    If only one or several teams are desired
+        # If only one or several teams are desired
         if team != 'All':
             close_wins_by_team = close_wins_by_team[team]
             close_loss_by_team = close_loss_by_team[team]
             
-    #    Win % in one-score games by team - pandas Series with Name
+        # Win % in one-score games by team - pandas Series with Name
         close_game_win_pct = round(pd.Series((close_wins_by_team / (close_wins_by_team + close_loss_by_team)), name='CGR'), 3)
-                
-    #    print('Wins in one-score games: \n', close_wins_by_team)
-    #    print('Losses in one-score games:\n', close_loss_by_team)
-    #    print('One-score game win % by team:\n', close_game_win_pct)
         
         return close_wins_by_team, close_loss_by_team, close_game_win_pct
             
             
-    def getTOMargin(self, season=2020):
+    def turnover_margin(self):
         '''
         Returns Turnover margin for all teams in a given season
-        parameters:
-            season - int or str (default 2020); season for which turnover stats are deisred
             
         returns:
             to_for - pandas.Series object; turnovers created (i.e. defensive turnovers) in a given season for each team
             to_against - pandas.Series object; turnovers committed (i.e. offensive turnovers) in a given season for each team
             to_diff - pandas.Series object; turnovers differential (to_for - to_diff) in a given season for each team
         '''
-    #    reading in TOs for each team's defense (turnovers created) and dropping multi-index
-        url_def = f"https://www.pro-football-reference.com/years/{season}/opp.htm"
+        # Reading in TOs for each team's defense (turnovers created) and dropping multi-index
+        url_def = f"https://www.pro-football-reference.com/years/{self.season}/opp.htm"
         ddf = pd.read_html(url_def)[0]
         ddf.columns = [c[1] for c in ddf.columns]
         
-    #    Getting Offenseive turnovers committed
-        url_off = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=pfr&url=%2Fyears%2F{season}%2F&div=div_team_stats"
+        # Getting Offenseive turnovers committed
+        url_off = f"https://widgets.sports-reference.com/wg.fcgi?css=1&site=pfr&url=%2Fyears%2F{self.season}%2F&div=div_team_stats"
         odf = pd.read_html(url_off ,displayed_only=False)[0]
         odf.columns = [c[1] for c in odf.columns] # Getting rid of multi-index for cols
         odf = odf.iloc[0:32:]
 
-    #    re-indexing for team labels
+        # re-indexing for team labels
         ddf.index, odf.index = ddf['Tm'], odf['Tm']
         ddf = ddf.drop(['Avg Team', "Avg Tm/G", "League Total"], axis=0)
 
-#        Calculating turnover differential for all teams
+        # Calculating turnover differential for all teams
         to_for = ddf['TO']
         to_against = odf['TO']
         to_diff = to_for - to_against
         
         return to_for, to_against, to_diff
         
-    def candlestickStats(self, season=2020):
+    def candlestick_stats(self):
         '''
         Returns predictive inputs for out model in a pandas dataframe
         
@@ -149,9 +144,9 @@ class winPredictor(object):
             - close game record
         '''
         
-        to_f, to_a, to_diff = self.getTOMargin(season)
-        c_w, c_l, c_pct = self.oneScoreRecord(season)
-        pt_diff = self.getPtDiff(season)
+        to_f, to_a, to_diff = self.turnover_margin()
+        c_w, c_l, c_pct = self.one_score_record()
+        pt_diff = self.get_pt_diff()
         
 #        Combining series into a singular df
         df = pd.concat([to_diff, c_pct, pt_diff], axis=1)
@@ -160,7 +155,7 @@ class winPredictor(object):
         
         return df
     
-    def winLossPct(self, season):
+    def winLossPct(self, season=2020):
         '''
         Returns recorded total win/loss % for each team for a given season
 
@@ -172,7 +167,7 @@ class winPredictor(object):
         
         '''
         print('Getting Win-Loss %s')
-        standings_url = f'https://www.pro-football-reference.com/years/{season}/'
+        standings_url = f'https://www.pro-football-reference.com/years/{self.season}/'
         dfs = pd.read_html(standings_url)
 
         df = pd.concat(dfs)
@@ -187,79 +182,27 @@ class winPredictor(object):
 
         return df['W-L%']
 
-    
-################################################################################################
-################################################################################################
-################################################################################################
-
-def scatterPlot(df, col, season):
-    '''
-    Plots scatter plot of some metric (x-axis) vs win %
-    '''
-    print(f"Checking metric {col} for correlation with W-L%")
-    plt.scatter(df[col],df['W-L%'])
-    plt.xlabel(col)
-    plt.ylabel('Win-Loss %')
-    plt.title(f'2020 NFL {col} - Win/Loss%')
-
-    plt.savefig(f'./plots/win-loss_vs_{col}-NFL-{season}.pdf')
-    plt.clf()
-
-
-def getSeasonData(season, save_csv=False):
-    '''Returns key stats df for selected season'''
-    to_for, to_against, to_diff = getTOMargin(season)
-    w, l, pct = oneScoreRecord(season, 'All')
-    pt_diff = getPtDiff(season)
-    wl = winLossPct(season)
-
-    #    Combining stats into one DataFrame
-    df = pd.DataFrame(data = {'Pt Diff': pt_diff.sort_index(), 'W-L%': wl.sort_index(), 'TO For': to_for, 'TO Against': to_against, 'TD': to_diff, 'Wc': w, "Lc": l, "W-L% one score":pct}).astype(float)
-    df = df.fillna(0)
-    print(df)
-
-    if save_csv:
-        df.to_csv(f'testing_data_{season}.csv')#.head())
-    
-    f, ax = plt.subplots()
-    ax.hist(df['Pt Diff'])
-    ax.set_title(season)
-    ax.set_xlabel('Point Differential')
-#    plt.show()
-    f.savefig(f'plots/pt_diff/pt_diff_{season}.pdf')
-    
-    return df
-
-def potentialWinningPcts():
-    '''
-    Returns dict of all possible NFL records (without ties) and winning % with 17-game schedule
-    
-    returns:
-        records - dict {<record>: <Win %>} i.e. {"9-7": .529}
-    '''
-    w=0
-    l = 17
-    records = {}
-    while w <= 17 and l >= 0:
-        win_pct = w/(w + l)
-        records[f'{w}-{l}'] = round(win_pct, 3)
+    def get_winning_pcts():
+        '''
+        Returns dict of all possible NFL records (without ties) and winning % with 17-game schedule
         
-        w += 1
-        l -= 1
+        returns:
+            records - dict {<record>: <Win %>} i.e. {"9-7": .529}
+        '''
+        w=0
+        l = 17
+        records = {}
+        while w <= 17 and l >= 0:
+            win_pct = w/(w + l)
+            records[f'{w}-{l}'] = round(win_pct, 3)
+            
+            w += 1
+            l -= 1
 
-    return records
+        return records
 
 
-if __name__ == "__main__":
-
-# Pt Diff, One-Score Record, Turnover Diff seem to be the most correlated (from what we've checked with W%
-# Monte Carlo simulation for game prediction: https://en.wikipedia.org/wiki/Monte_Carlo_method
-    
-#    getSeasonData(2020)
-#    potentialWinningPcts()
-#
-#    for s in range(2020,2002,-1):
-#        getPtDiff(s)
+if __name__ == "__main__":    
     w = winPredictor(season=2020)
-    w.candlestickStats(2020)
-#    print(xx)
+    w.candlestick_stats()
+
