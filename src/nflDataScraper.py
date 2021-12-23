@@ -1,20 +1,20 @@
 # nflWinPrediction/src/nflDataScraper.py
 
 '''
-Script for predicting NFL Win totals
+Script to scrape data for candlestick data predicting NFL win totals
+Output should be fed to our 
 Sharp article here: https://www.sharpfootballanalysis.com/betting/numbers-that-matter-for-predicting-nfl-win-totals-part-one/
-Scrapes Pro-Football Reference for data
 '''
 
 import os
 import pandas as pd
-import requests
+# import requests
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.stats import pearsonr
+# from scipy.stats import pearsonr
 
 
-class winPredictor(object):
+class nflDataScraper(object):
     '''
     This class scrapes Pro-Football-Reference.com for the 3 stats most highly correlated with NFL win %:
         - Turnover differential (turnovers created - turnovers committed)
@@ -29,6 +29,7 @@ class winPredictor(object):
     def __init__(self, season=2020, team='All'):
         self.season = season
         self.team = team
+        self.candlestick_stats = None
 
     def get_pt_diff(self, return_teams=True):
         '''
@@ -100,8 +101,7 @@ class winPredictor(object):
         close_game_win_pct = round(pd.Series((close_wins_by_team / (close_wins_by_team + close_loss_by_team)), name='CGR'), 3)
         
         return close_wins_by_team, close_loss_by_team, close_game_win_pct
-            
-            
+  
     def turnover_margin(self):
         '''
         Returns Turnover margin for all teams in a given season
@@ -132,36 +132,7 @@ class winPredictor(object):
         to_diff = to_for - to_against
         
         return to_for, to_against, to_diff
-        
-    def candlestick_stats(self, save_csv=False):
-        '''
-        Returns predictive inputs for out model in a pandas dataframe
-        
-        Needed data:
-            - team
-            - turnover diff
-            - pt diff
-            - close game record
 
-        parameters:
-            save_csv : boolean, default False; if True, output dataframe saved to a csv file
-        '''
-        
-        to_f, to_a, to_diff = self.turnover_margin()
-        c_w, c_l, c_pct = self.one_score_record()
-        pt_diff = self.get_pt_diff()
-        
-#        Combining series into a singular df
-        df = pd.concat([to_diff, c_pct, pt_diff], axis=1)
-        
-        print(f'Candlestick stats by team for {self.season}:')
-        print(df.head())
-        
-        if save_csv:
-            csv_path = os.path.join('..', 'data', f'nfl-candlestick-stats-{self.season}.csv')
-            df.to_csv(csv_path, index=False)
-        return df
-    
     def win_loss_pct(self, season=2020):
         '''
         Returns recorded total win/loss % for each team for a given season
@@ -207,9 +178,39 @@ class winPredictor(object):
             l -= 1
 
         return records
+    
+    def candlestick_stats(self, save_csv=False):
+        '''
+        Returns predictive inputs for out model in a pandas dataframe
+
+        parameters:
+            save_csv : boolean, default False; if True, output dataframe saved to a csv file
+
+        returns:
+            df (self.candlestick_stats): pd.DataFrame;
+                DataFrame containing candlestick data for different NFL teams ina  given season. 
+                    Columns: [Turnover Margin (TO), Close Game Record (CGR), Point Differential (PD)]   
+        '''
+        
+        _, _, to_diff = self.turnover_margin()
+        _, _, c_pct = self.one_score_record()
+        pt_diff = self.get_pt_diff()
+        
+#        Combining series into a singular df
+        df = pd.concat([to_diff, c_pct, pt_diff], axis=1)
+        
+        print(f'Candlestick stats by team for {self.season}:')
+        print(df.head())
+        
+        if save_csv:
+            csv_path = os.path.join('..', 'data', f'nfl-candlestick-stats-{self.season}.csv')
+            df.to_csv(csv_path, index=False)
+
+        self.candlestick_stats = df
+        return df
 
 
 if __name__ == "__main__":    
-    w = winPredictor(season=2020)
-    w.candlestick_stats()
+    n = nflDataScraper(season=2020)
+    n.candlestick_stats()
 
