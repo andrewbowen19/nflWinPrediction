@@ -133,7 +133,7 @@ class winPredictor(object):
         
         return to_for, to_against, to_diff
         
-    def candlestick_stats(self):
+    def candlestick_stats(self, save_csv=False):
         '''
         Returns predictive inputs for out model in a pandas dataframe
         
@@ -142,6 +142,9 @@ class winPredictor(object):
             - turnover diff
             - pt diff
             - close game record
+
+        parameters:
+            save_csv : boolean, default False; if True, output dataframe saved to a csv file
         '''
         
         to_f, to_a, to_diff = self.turnover_margin()
@@ -151,11 +154,15 @@ class winPredictor(object):
 #        Combining series into a singular df
         df = pd.concat([to_diff, c_pct, pt_diff], axis=1)
         
+        print(f'Candlestick stats by team for {self.season}:')
         print(df.head())
         
+        if save_csv:
+            csv_path = os.path.join('..', 'data', f'nfl-candlestick-stats-{self.season}.csv')
+            df.to_csv(csv_path, index=False)
         return df
     
-    def winLossPct(self, season=2020):
+    def win_loss_pct(self, season=2020):
         '''
         Returns recorded total win/loss % for each team for a given season
 
